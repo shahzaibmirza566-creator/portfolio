@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mirza Shahzaib · Showreel</title>
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; background: #04070f; color: #eaf0ff; font-family: system-ui, sans-serif;
+         min-height: 100vh; display: grid; place-items: center; }
+  .wrap { width: min(96vw, 1280px); padding: 16px 0; }
+  canvas { width: 100%; height: auto; aspect-ratio: 16/9; border-radius: 14px; background: #08101f;
+           box-shadow: 0 20px 60px -20px #1f4fd8; display: block; }
+  .bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  button { background: #1f4fd8; color: #fff; border: 0; padding: 10px 20px; border-radius: 999px;
+           font-weight: 600; cursor: pointer; }
+  button.alt { background: transparent; border: 1px solid #2a3a5e; }
+  #status { color: #93a2c4; font-size: .9rem; margin-left: auto; }
+  a { color: #29d3ff; }
+  @media (max-width: 560px) { .wrap { width: 100%; padding: 12px; box-sizing: border-box; } canvas { border-radius: 10px; } .bar { gap: 8px; } button { flex: 1 1 100%; } #status { margin-left: 0; width: 100%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <canvas id="c" width="1920" height="1080"></canvas>
+  <div class="bar">
+    <button id="play">▶ Play</button>
+    <button id="snd" class="alt" aria-pressed="true">🔊 Sound on</button>
+    <button id="voice" class="alt" aria-pressed="true">🎙 Voice-over on</button>
+    <button id="rec" class="alt">● Record &amp; download .webm (with sound)</button>
+    <a href="index.html">← Portfolio</a>
+    <span id="status">38s · 1920×1080 · 60fps</span>
+  </div>
+</div>
+<script src="narration.js"></script>
+<script>
+const cv = document.getElementById('c'), g = cv.getContext('2d');
+const W = 1920, H = 1080, DUR = 37.76;
+const BLUE = '#4d7cff', CYAN = '#29d3ff', BG = '#08101f', TXT = '#eaf0ff', MUTED = '#93a2c4';
+const SCENES = [[0, 5.13], [5.13, 10.13], [10.13, 17.76], [17.76, 24.15], [24.15, 29.81], [29.81, 34.89], [34.89, 37.76]];
+
+const PROJECTS = [
+  { n: 'Florida County Property Records', tag: '65 county sites · 1 schema',
+    use: 'Data teams load every county into one importer. Sarasota\'s 300K+ run dropped from ~2 weeks to ~26 hours.',
+    stack: ['Scrapy', 'Zyte', '2Captcha'] },
+  { n: 'Real-Time Listings for a CRM', tag: '5 sources · 10–30 min runs',
+    use: 'A Romanian real-estate CRM gets new listings and price drops within minutes, de-duplicated.',
+    stack: ['Scrapy', 'Selenium', 'MySQL'] },
+  { n: '3.3M Court Decisions', tag: 'Complete CanLII coverage',
+    use: 'A legal-AI team searches every Canadian decision from 1800 onward in one MongoDB.',
+    stack: ['Scrapy', 'MongoDB'] },
+  { n: '200+ E-commerce Scrapers', tag: '60+ marketplaces · 15+ countries',
+    use: 'A UK brand tracks competitor prices, rankings and promotions every day.',
+    stack: ['Scrapy', 'Playwright', 'Selenium'] },
+  { n: '7 Live Lead Dashboards', tag: 'Investor lead platform',
+    use: 'Investors get enriched motivated-seller leads daily across 65 county sites.',
+    stack: ['Node.js', 'React', 'PostgreSQL'] },
+  { n: 'Job Aggregation Engine', tag: '4 boards · millions of jobs',
+    use: 'A job platform posts de-duplicated listings, each with screenshot evidence.',
+    stack: ['Scrapy', 'Selenium', 'B2'] },
+];
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eo = (x) => 1 - Math.pow(1 - x, 3);
+const eb = (x) => { const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const rs = (n) => { seed = n; return rnd; };
+
+function text(s, x, y, size, color = TXT, weight = 700, align = 'left', alpha = 1) {
+  g.globalAlpha = alpha; g.fillStyle = color; g.textAlign = align; g.textBaseline = 'middle';
+  g.font = `${weight} ${size}px system-ui, -apple-system, "Segoe UI", sans-serif`;
+  g.fillText(s, x, y); g.globalAlpha = 1;
+}
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+function glow(x, y, r, color, a) {
+  const gr = g.createRadialGradient(x, y, 0, x, y, r);
+  gr.addColorStop(0, color); gr.addColorStop(1, 'transparent');
+  g.globalAlpha = a; g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); g.globalAlpha = 1;
+}
+
+function background(t) {
+  g.fillStyle = BG; g.fillRect(0, 0, W, H);
+  glow(400 + Math.sin(t * .4) * 200, 250 + Math.cos(t * .3) * 100, 800, BLUE, .28);
+  glow(1500 + Math.cos(t * .35) * 200, 850 + Math.sin(t * .4) * 100, 800, CYAN, .18);
+  g.strokeStyle = 'rgba(120,150,255,.07)'; g.lineWidth = 1;
+  const off = (t * 40) % 80;
+  for (let x = -80 + off; x < W; x += 80) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, H); g.stroke(); }
+  for (let y = -80 + off; y < H; y += 80) { g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke(); }
+}
+
+/* Scene 1 — kinetic title */
+function s1(t) {
+  const name = 'MIRZA SHAHZAIB';
+  g.font = '700 150px system-ui'; const total = g.measureText(name).width;
+  let x = W / 2 - total / 2;
+  [...name].forEach((ch, i) => {
+    const p = eb(prog(t, .2 + i * .06, .9 + i * .06));
+    g.font = '800 150px system-ui';
+    const w = g.measureText(ch).width;
+    g.save(); g.translate(x + w / 2, 470 + (1 - p) * 120);
+    g.rotate((1 - p) * .35 * (i % 2 ? 1 : -1));
+    text(ch, 0, 0, 150, TXT, 800, 'center', clamp(p * 1.4));
+    g.restore(); x += w;
+  });
+  const lw = 760 * eo(prog(t, 1.4, 2.4));
+  const gr = g.createLinearGradient(W / 2 - 380, 0, W / 2 + 380, 0);
+  gr.addColorStop(0, BLUE); gr.addColorStop(1, CYAN);
+  g.fillStyle = gr; g.fillRect(W / 2 - lw / 2, 570, lw, 6);
+  const words = ['Python', 'ETL', 'Web Scraping'];
+  words.forEach((w, i) => {
+    const p = eo(prog(t, 1.8 + i * .25, 2.5 + i * .25));
+    text(w, W / 2 + (i - 1) * 380, 650 + (1 - p) * 30, 48, i === 1 ? CYAN : MUTED, 600, 'center', p);
+  });
+}
+
+/* Scene 2 — messy HTML -> clean table */
+function s2(t, lt) {
+  const head = eo(prog(lt, 0, .8));
+  text('Messy websites', 480, 150 + (1 - head) * 30, 64, MUTED, 700, 'center', head);
+  text('→', W / 2, 150, 64, CYAN, 700, 'center', head);
+  text('Clean data', 1440, 150 + (1 - head) * 30, 64, TXT, 700, 'center', head);
+
+  // left: scrolling markup
+  rrect(120, 230, 720, 700, 24); g.fillStyle = 'rgba(15,26,48,.9)'; g.fill();
+  g.strokeStyle = '#1f2d4a'; g.lineWidth = 2; g.stroke();
+  g.save(); rrect(120, 230, 720, 700, 24); g.clip();
+  const tags = ['<div class="p-7x9">', '<span data-id="4821">', '<script>window.__s={…}', '<a href="/item?id=88">',
+    '<li class="x_k3">$19.99</li>', '<td>SKU-00412</td>', '<img lazy src="/i/4.jpg">', '<ul id="grid__a">', '<p style="…">In stock</p>'];
+  const r = rs(3);
+  for (let i = 0; i < 24; i++) {
+    const y = 270 + ((i * 38 - lt * 90) % 912 + 912) % 912 - 20;
+    text(tags[Math.floor(r() * tags.length)], 160 + (i % 3) * 22, y, 26, i % 5 === 0 ? CYAN : '#5b6b8f', 500, 'left', head);
+  }
+  g.restore();
+
+  // flowing particles
+  const r2 = rs(11);
+  for (let i = 0; i < 40; i++) {
+    const sp = .4 + r2() * .5, ph = r2(), y0 = 330 + r2() * 500;
+    const p = ((lt * sp + ph) % 1);
+    const x = 860 + p * 200, y = y0 + (580 - y0) * eo(p) ;
+    glow(x, y, 26, i % 2 ? CYAN : BLUE, .9 * Math.sin(p * Math.PI) * head);
+  }
+
+  // right: clean table
+  rrect(1080, 230, 720, 700, 24); g.fillStyle = 'rgba(15,26,48,.9)'; g.fill(); g.stroke();
+  const cols = ['SKU', 'Name', 'Price'];
+  cols.forEach((c, i) => text(c, 1130 + [0, 190, 520][i], 285, 28, CYAN, 700, 'left', head));
+  const rows = [['A-0412', 'Desk Lamp', '$19.99'], ['A-0413', 'USB Hub', '$24.50'], ['A-0414', 'Keyboard', '$59.00'],
+    ['A-0415', 'Monitor Arm', '$42.75'], ['A-0416', 'Webcam', '$34.90'], ['A-0417', 'Headset', '$79.00'], ['A-0418', 'Mouse Pad', '$12.00']];
+  rows.forEach((row, i) => {
+    const p = eo(prog(lt, 1.2 + i * .28, 1.8 + i * .28));
+    const y = 355 + i * 78;
+    g.globalAlpha = p; g.fillStyle = i % 2 ? 'rgba(77,124,255,.08)' : 'rgba(77,124,255,.16)';
+    rrect(1110, y - 30, 660, 62, 12); g.fill(); g.globalAlpha = 1;
+    row.forEach((c, k) => text(c, 1130 + [0, 190, 520][k] + (1 - p) * -40, y, 30, TXT, 500, 'left', p));
+  });
+  const done = eo(prog(lt, 3.4, 4.2));
+  text(`${Math.round(done * 1248)} rows exported · CSV / JSON / API`, 1440, 880, 28, MUTED, 600, 'center', done);
+}
+
+/* Projects — three cards per scene with use cases */
+function wrap(s, x, y, maxW, size, lh, color, alpha) {
+  g.font = `500 ${size}px system-ui`; const words = s.split(' '); let line = '';
+  words.forEach((w) => {
+    const test = line ? line + ' ' + w : w;
+    if (g.measureText(test).width > maxW && line) { text(line, x, y, size, color, 500, 'left', alpha); y += lh; line = w; }
+    else line = test;
+  });
+  text(line, x, y, size, color, 500, 'left', alpha);
+}
+function projects(lt, set, title) {
+  const head = eo(prog(lt, 0, .6));
+  text(title, W / 2, 130 + (1 - head) * 30, 64, TXT, 800, 'center', head);
+  PROJECTS.slice(set * 3, set * 3 + 3).forEach((p, i) => {
+    const pr = eo(prog(lt, .3 + i * .25, 1.0 + i * .25));
+    const x = 110 + i * 590, y = 220 + (1 - pr) * 70, w = 540, h = 700;
+    g.globalAlpha = pr;
+    rrect(x, y, w, h, 28); g.fillStyle = 'rgba(15,26,48,.92)'; g.fill();
+    const gr = g.createLinearGradient(x, y, x + w, y); gr.addColorStop(0, BLUE); gr.addColorStop(1, CYAN);
+    g.strokeStyle = gr; g.lineWidth = 3; g.stroke();
+    g.globalAlpha = 1;
+    text('0' + (set * 3 + i + 1), x + 40, y + 70, 54, CYAN, 800, 'left', pr);
+    wrap(p.n, x + 40, y + 160, w - 80, 44, 54, TXT, pr);
+    g.font = '700 44px system-ui';
+    const nameLines = g.measureText(p.n).width > w - 80 ? 2 : 1;
+    const ty = y + 160 + nameLines * 54 + 10;
+    text(p.tag, x + 40, ty, 28, CYAN, 600, 'left', pr);
+    text('USE CASE', x + 40, ty + 70, 22, MUTED, 700, 'left', pr);
+    wrap(p.use, x + 40, ty + 115, w - 80, 30, 42, '#c9d4ef', pr);
+    let cx0 = x + 40;
+    p.stack.forEach((s) => {
+      const sx = cx0, sy = y + h - 80;
+      g.font = '600 24px system-ui'; const sw = g.measureText(s).width + 36; cx0 += sw + 12;
+      g.globalAlpha = pr; rrect(sx, sy - 24, sw, 48, 24); g.fillStyle = 'rgba(77,124,255,.18)'; g.fill(); g.globalAlpha = 1;
+      text(s, sx + 18, sy, 24, '#9bb4ff', 600, 'left', pr);
+    });
+  });
+}
+const pA = (t, lt) => projects(lt, 0, 'Case studies · Data engineering');
+const pB = (t, lt) => projects(lt, 1, 'Case studies · Platforms at scale');
+
+/* Scene 3 — stats rings */
+function s3(t, lt) {
+  const head = eo(prog(lt, 0, .6));
+  text('Built to deliver', W / 2, 160 + (1 - head) * 30, 72, TXT, 800, 'center', head);
+  const stats = [['1000+', 'Projects completed', .95, 1000], ['2000+', 'Production scrapers', .95, 2000], ['450+', 'Fiverr reviews', .85, 450], ['5+', 'Years building', .78, 5]];
+  stats.forEach(([lab, sub, fill, n], i) => {
+    const cx = 300 + i * 440, cy = 560, R = 150, p = eo(prog(lt, .4 + i * .3, 1.6 + i * .3));
+    g.lineWidth = 20; g.lineCap = 'round';
+    g.strokeStyle = '#1b2a4a'; g.beginPath(); g.arc(cx, cy, R, 0, 6.2832); g.stroke();
+    const gr = g.createLinearGradient(cx - R, cy, cx + R, cy); gr.addColorStop(0, BLUE); gr.addColorStop(1, CYAN);
+    g.strokeStyle = gr; g.beginPath(); g.arc(cx, cy, R, -Math.PI / 2, -Math.PI / 2 + 6.2832 * fill * p); g.stroke();
+    const suffix = lab.replace(/[0-9]/g, '');
+    text(Math.round(n * p).toLocaleString('en-US') + suffix, cx, cy - 4, n >= 1000 ? 70 : 84, TXT, 800, 'center', p);
+    text(sub, cx, cy + R + 70, 32, i === 0 ? CYAN : MUTED, 600, 'center', p);
+  });
+}
+
+/* Scene 4 — orbiting skills */
+function s4(t, lt) {
+  const head = eo(prog(lt, 0, .6));
+  text('The toolkit', W / 2, 140 + (1 - head) * 30, 72, TXT, 800, 'center', head);
+  const cx = W / 2, cy = 590;
+  [260, 400].forEach((r, i) => { g.strokeStyle = 'rgba(77,124,255,.25)'; g.lineWidth = 2; g.beginPath(); g.arc(cx, cy, r, 0, 6.2832); g.stroke(); });
+  const pulse = 1 + Math.sin(lt * 3) * .04;
+  glow(cx, cy, 240 * pulse, BLUE, .6);
+  g.beginPath(); g.arc(cx, cy, 110 * pulse, 0, 6.2832); g.fillStyle = BLUE; g.fill();
+  text('Python', cx, cy, 44, '#fff', 800, 'center');
+  const inner = ['Scrapy', 'Playwright', 'Selenium', 'httpx'], outer = ['Pandas', 'FastAPI', 'Docker', 'n8n', 'SQL', 'Cron'];
+  [[inner, 260, .5], [outer, 400, -.35]].forEach(([list, R, sp], ri) => {
+    list.forEach((s, i) => {
+      const p = eb(prog(lt, .3 + i * .15 + ri * .3, 1 + i * .15 + ri * .3));
+      const a = lt * sp + (i / list.length) * 6.2832;
+      const x = cx + Math.cos(a) * R * p, y = cy + Math.sin(a) * R * .72 * p;
+      g.font = '600 32px system-ui'; const w = g.measureText(s).width + 56;
+      rrect(x - w / 2, y - 30, w, 60, 30);
+      g.fillStyle = 'rgba(15,26,48,.95)'; g.fill(); g.strokeStyle = ri ? CYAN : BLUE; g.lineWidth = 2; g.stroke();
+      text(s, x, y, 32, TXT, 600, 'center', clamp(p));
+    });
+  });
+}
+
+/* Scene 5 — outro */
+function s5(t, lt) {
+  const a = eo(prog(lt, 0, .8)), b = eo(prog(lt, .5, 1.3)), c = eo(prog(lt, 1, 1.8));
+  glow(W / 2, H / 2, 600 + Math.sin(lt * 3) * 40, BLUE, .35 * a);
+  text("Let's build something", W / 2, 440 + (1 - a) * 40, 120, TXT, 800, 'center', a);
+  text('reliable.', W / 2, 580 + (1 - b) * 40, 120, CYAN, 800, 'center', b);
+  rrect(W / 2 - 280, 710, 560, 90, 45);
+  const gr = g.createLinearGradient(W / 2 - 280, 0, W / 2 + 280, 0); gr.addColorStop(0, BLUE); gr.addColorStop(1, CYAN);
+  g.globalAlpha = c; g.fillStyle = gr; g.fill(); g.globalAlpha = 1;
+  text('shahzaibmirza719@gmail.com', W / 2, 755, 38, '#fff', 700, 'center', c);
+}
+
+const fns = [s1, s2, pA, pB, s3, s4, s5];
+function render(t) {
+  background(t);
+  SCENES.forEach(([a, b], i) => {
+    if (t < a - .001 || t >= b) return;
+    const fade = Math.min(prog(t, a, a + .4), 1 - prog(t, b - .4, b));
+    g.globalAlpha = i === 0 ? 1 - prog(t, b - .4, b) : fade;
+    fns[i](t, t - a);
+    g.globalAlpha = 1;
+  });
+  drawCaption(t);
+  // progress bar
+  g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(0, H - 8, W, 8);
+  g.fillStyle = CYAN; g.fillRect(0, H - 8, W * t / DUR, 8);
+}
+
+
+/* ---------- Sound: narration only (no background music or effects) ---------- */
+let actx, adest, spk, music, muted = false, voiceOn = true, voiceReady = false;
+function ensureCtx() {
+  if (!actx) { actx = new (window.AudioContext || window.webkitAudioContext)(); adest = actx.createMediaStreamDestination(); }
+  return actx;
+}
+function audioInit() { ensureCtx(); if (actx.state === 'suspended') actx.resume(); }
+async function preloadVoice() {
+  try {
+    ensureCtx();
+    await Promise.all((window.NARRATION || []).map(async (n) => {
+      const ab = await (await fetch(n.src)).arrayBuffer();
+      n.buf = await actx.decodeAudioData(ab);
+    }));
+    voiceReady = true; status.textContent = '38s · 1920×1080 · voice-over only';
+  } catch (e) { console.warn('voice-over unavailable', e); }
+}
+function startAudio() {
+  if (music) { try { music.disconnect(); spk.disconnect(); } catch (e) {} }
+  spk = actx.createGain(); spk.gain.value = muted ? 0 : 1; spk.connect(actx.destination);
+  const bus = makeBus(actx, [spk, adest]);   // adest always gets sound, for recording
+  music = bus;
+  if (voiceOn && voiceReady) addVoice(actx, bus, actx.currentTime + .08);
+}
+function makeBus(ctx, dests) {                  // gentle limiter so the voice never clips
+  const bus = ctx.createGain(), lim = ctx.createDynamicsCompressor();
+  lim.threshold.value = -6; lim.knee.value = 6; lim.ratio.value = 8; lim.attack.value = .003; lim.release.value = .15;
+  bus.connect(lim); dests.forEach((d) => lim.connect(d));
+  return bus;
+}
+function addVoice(ctx, bus, t0) {
+  (window.NARRATION || []).forEach((n) => {
+    if (!n.buf) return;
+    const s = ctx.createBufferSource(), g = ctx.createGain();
+    s.buffer = n.buf; g.gain.value = 1.1; s.connect(g); g.connect(bus); s.start(t0 + n.t);
+  });
+}
+function drawCaption(t) {
+  if (!voiceOn || !voiceReady) return;
+  const n = (window.NARRATION || []).find((x) => t >= x.t - .1 && t <= x.t + x.dur + .25);
+  if (!n) return;
+  const a = Math.min(prog(t, n.t - .1, n.t + .15), 1 - prog(t, n.t + n.dur, n.t + n.dur + .25));
+  g.font = '600 40px system-ui, -apple-system, "Segoe UI", sans-serif';
+  let lines = [n.text];
+  if (g.measureText(n.text).width > 1500) {
+    const w = n.text.split(' '); let best = 1, diff = 1e9;
+    for (let i = 1; i < w.length; i++) { const d = Math.abs(g.measureText(w.slice(0, i).join(' ')).width - g.measureText(w.slice(i).join(' ')).width); if (d < diff) { diff = d; best = i; } }
+    lines = [w.slice(0, best).join(' '), w.slice(best).join(' ')];
+  }
+  const bw = Math.max(...lines.map((l) => g.measureText(l).width)) + 72, bh = lines.length * 54 + 28, y = H - 70 - bh;
+  g.globalAlpha = a * .62; rrect(W / 2 - bw / 2, y, bw, bh, 22); g.fillStyle = '#02061a'; g.fill();
+  g.globalAlpha = a; lines.forEach((l, i) => text(l, W / 2, y + 14 + 27 + i * 54, 40, '#fff', 600, 'center', a));
+  g.globalAlpha = 1;
+}
+
+/* Playback + recording */
+let start = 0, playing = false, recorder = null, chunks = [];
+const status = document.getElementById('status');
+function loop(now) {
+  if (!playing) return;
+  const t = Math.max(0, (now - start) / 1000);
+  if (t >= DUR) { playing = false; render(DUR - .001); if (recorder) recorder.stop(); document.getElementById('play').textContent = '↻ Replay'; return; }
+  render(t); requestAnimationFrame(loop);
+}
+function play() { audioInit(); startAudio(); start = performance.now() + 80; playing = true; document.getElementById('play').textContent = '■ Playing…'; requestAnimationFrame(loop); }
+document.getElementById('play').onclick = play;
+document.getElementById('voice').onclick = (e) => {
+  voiceOn = !voiceOn; e.currentTarget.textContent = voiceOn ? '🎙 Voice-over on' : '🎙 Voice-over off';
+  e.currentTarget.setAttribute('aria-pressed', voiceOn); status.textContent = voiceOn ? 'Voice-over + captions on (applies on next play)' : 'Voice-over off (applies on next play)';
+};
+document.getElementById('snd').onclick = (e) => {
+  muted = !muted; e.currentTarget.textContent = muted ? '🔇 Sound off' : '🔊 Sound on';
+  e.currentTarget.setAttribute('aria-pressed', !muted); if (spk) spk.gain.value = muted ? 0 : 1;
+};
+document.getElementById('rec').onclick = () => {
+  if (!window.MediaRecorder) { status.textContent = 'Recording not supported in this browser'; return; }
+  const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'].find((m) => MediaRecorder.isTypeSupported(m));
+  audioInit();
+  const vs = cv.captureStream(60); adest.stream.getAudioTracks().forEach((t) => vs.addTrack(t));
+  recorder = new MediaRecorder(vs, { mimeType: mime, videoBitsPerSecond: 12e6, audioBitsPerSecond: 192e3 });
+  chunks = []; recorder.ondataavailable = (e) => chunks.push(e.data);
+  recorder.onstop = () => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(chunks, { type: 'video/webm' }));
+    a.download = 'shahzaib-showreel.webm'; a.click(); recorder = null; status.textContent = 'Saved shahzaib-showreel.webm';
+  };
+  recorder.start(); status.textContent = 'Recording 38s with voice-over…'; play();
+};
+addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); play(); } });
+render(1.6); // poster frame
+preloadVoice();
+</script>
+</body>
+</html>

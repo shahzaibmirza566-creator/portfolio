@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mirza Shahzaib · Senior Data Engineer · Web Scraping</title>
+  <meta name="description" content="Portfolio of Mirza Shahzaib, freelance senior data engineer. 200+ production scrapers, ETL pipelines and lead-generation platforms.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="glow" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="nav">
+    <a href="#top" class="logo">SM<span>.</span></a>
+    <nav id="nav-links">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#case-studies">Case studies</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button id="theme" aria-label="Toggle theme">◐</button>
+    </nav>
+    <button id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><i></i><i></i><i></i></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-text">
+      <p class="eyebrow"><span id="type"></span><span class="caret"></span></p>
+      <h1>I turn messy websites into <em>clean, reliable data.</em></h1>
+      <p class="lead">Hi, I'm Mirza Shahzaib, a freelance senior data engineer with 5+ years building production scrapers, ETL pipelines and lead-generation platforms that keep running when sites change.</p>
+      <div class="cta">
+        <a class="btn primary" href="#case-studies">See my work</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+      <ul class="stats">
+        <li><b><span data-count="1000">1,000</span>+</b><span>Projects completed</span></li>
+        <li><b><span data-count="5">5</span>+</b><span>Years building</span></li>
+        <li><b><span data-count="2000">2,000</span>+</b><span>Production scrapers</span></li>
+        <li><b><span data-count="450">450</span>+</b><span>Fiverr reviews · 4.9★</span></li>
+      </ul>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orb"></div>
+        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+        <div class="term" data-depth="14">
+          <div class="term-bar"><i></i><i></i><i></i><span>scraper.py</span></div>
+          <pre id="log"></pre>
+          <div class="scan"></div>
+        </div>
+        <div class="float f1" data-depth="30"><b>200</b> OK</div>
+        <div class="float f2" data-depth="40">✓ <span id="rows">1,248</span> rows</div>
+        <div class="float f3" data-depth="26">{ "price": 19.99 }</div>
+        <div class="float f4 bars" data-depth="34"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section id="about" class="reveal">
+      <h2>About</h2>
+      <p>I'm a web scraping specialist and Python data engineer who builds production scrapers that keep running: from large-scale collection on protected, JavaScript-heavy sites to clean, standardised datasets delivered to databases, S3, CSV or CRMs.</p>
+      <p>In 5+ years I have built 200+ production scrapers for a UK e-commerce brand, collected 3.3M court decisions for a legal-AI company, standardised property records from 18 Florida counties into one schema, and delivered 7 live lead-generation dashboards. I work solo and own each project end to end: architecture, build, validation, documentation and handover.</p>
+    </section>
+
+    <section id="skills" class="reveal">
+      <h2>Skills</h2>
+      <div class="chips">
+        <span>Python</span><span>Scrapy</span><span>Playwright</span><span>Selenium</span>
+        <span>Node.js / TypeScript</span><span>React</span><span>PostgreSQL</span><span>MongoDB</span>
+        <span>MySQL</span><span>AWS S3</span><span>Zyte / ScrapingBee</span><span>Proxies &amp; CAPTCHA</span>
+        <span>ETL pipelines</span><span>n8n</span><span>Docker</span><span>Pandas</span>
+      </div>
+    </section>
+
+    <section id="case-studies" class="reveal">
+      <h2>Case studies</h2>
+      <p>Seven client projects, each with the challenge, what I built, the result and the architecture.</p>
+      <div class="cases" id="cases"></div>
+    </section>
+
+    <section id="projects" class="reveal">
+      <h2>More projects</h2>
+      <p><a class="btn" href="showreel.html">▶ Watch the showreel</a></p>
+      <div class="grid">
+        <article class="card">
+          <h3>LeadSite</h3>
+          <p>Daily county-record scraping, de-duplication and a skip-trace queue, served through a subscription-gated API.</p>
+          <p class="use"><b>Use case:</b> Investors get fresh distressed-property leads every day.</p>
+          <div class="tags"><span>Django</span><span>Celery</span><span>PostgreSQL</span></div>
+        </article>
+        <article class="card">
+          <h3>Google SERP + AI Overview Scraper</h3>
+          <p>Extracts AI Overview answers and their cited sources, organic results, People Also Ask and related searches.</p>
+          <p class="use"><b>Use case:</b> SEO teams track AI citations and rankings.</p>
+          <div class="tags"><span>Scrapy</span><span>Network analysis</span></div>
+        </article>
+        <article class="card">
+          <h3>NRW Data Center Intelligence</h3>
+          <p>Geospatial BI dashboard scoring data-center sites using infrastructure, renewable-energy and market layers, with an AI assistant.</p>
+          <p class="use"><b>Use case:</b> Developers compare and select sites faster.</p>
+          <div class="tags"><span>PostGIS</span><span>Streamlit</span><span>OpenAI</span></div>
+        </article>
+        <article class="card">
+          <h3>ZVG Foreclosure Ingestion</h3>
+          <p>Ingests German court foreclosure auction notices for commercial and mixed-use property into a staging table.</p>
+          <p class="use"><b>Use case:</b> Deal sourcing for commercial distressed assets.</p>
+          <div class="tags"><span>Python</span><span>PostgreSQL</span></div>
+        </article>
+        <article class="card">
+          <h3>Tyler Odyssey Case Scraper</h3>
+          <p>Scrapy and Playwright spider for a court-records portal; you solve the CAPTCHA, it collects the cases.</p>
+          <p class="use"><b>Use case:</b> Researchers turn court portals into searchable data.</p>
+          <div class="tags"><span>Scrapy</span><span>Playwright</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="reveal">
+      <h2>Let's work together</h2>
+      <p>Have data you need or a task to automate? Tell me about it.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:shahzaibmirza719@gmail.com">shahzaibmirza719@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/mirza-shahzaib-613bab15b/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://www.fiverr.com/shahzaibmirz637" target="_blank" rel="noopener">Fiverr</a>
+        <a class="btn" href="https://www.upwork.com/freelancers/shahzaibmirza5" target="_blank" rel="noopener">Upwork</a>
+        <a class="btn" href="https://github.com/shahzaibmirza566-creator" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>© <span id="year"></span> Mirza Shahzaib · Freelance Senior Data Engineer</footer>
+  <script src="script.js"></script>
+</body>
+</html>
