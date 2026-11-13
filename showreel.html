@@ -205,7 +205,7 @@ const pB = (t, lt) => projects(lt, 1, 'Case studies · Platforms at scale');
 function s3(t, lt) {
   const head = eo(prog(lt, 0, .6));
   text('Built to deliver', W / 2, 160 + (1 - head) * 30, 72, TXT, 800, 'center', head);
-  const stats = [['1000+', 'Projects completed', .95, 1000], ['2000+', 'Production scrapers', .95, 2000], ['450+', 'Fiverr reviews', .85, 450], ['5+', 'Years building', .78, 5]];
+  const stats = [['1000+', 'Projects completed', .95, 1000], ['1200+', 'Production scrapers', .95, 1200], ['450+', 'Fiverr reviews', .85, 450], ['5+', 'Years building', .78, 5]];
   stats.forEach(([lab, sub, fill, n], i) => {
     const cx = 300 + i * 440, cy = 560, R = 150, p = eo(prog(lt, .4 + i * .3, 1.6 + i * .3));
     g.lineWidth = 20; g.lineCap = 'round';
@@ -301,9 +301,13 @@ function makeBus(ctx, dests) {                  // gentle limiter so the voice n
   bus.connect(lim); dests.forEach((d) => lim.connect(d));
   return bus;
 }
+// The recorded opening line says "freelance"; play it silently and caption the current title instead.
+(window.NARRATION || []).forEach((n) => {
+  if (/freelance senior data engineer/i.test(n.text)) { n.silent = true; n.text = "Hi, I'm Mirza Shahzaib, a senior Python data engineer."; }
+});
 function addVoice(ctx, bus, t0) {
   (window.NARRATION || []).forEach((n) => {
-    if (!n.buf) return;
+    if (!n.buf || n.silent) return;
     const s = ctx.createBufferSource(), g = ctx.createGain();
     s.buffer = n.buf; g.gain.value = 1.1; s.connect(g); g.connect(bus); s.start(t0 + n.t);
   });

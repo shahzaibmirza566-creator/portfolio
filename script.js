@@ -222,7 +222,7 @@ if (!reduce) {
       p: [['INPUT', 'Keyword & URL files (client)'], ['CRAWL', 'Scrapy · Playwright · Selenium + proxies'], ['EXTRACT', 'Category · listing · product · banners'], ['OUTPUT', 'Timestamped CSV per run'], ['OPS', 'Daily schedule · Discord alerts']],
       tech: ['Python', 'Scrapy', 'Playwright', 'Zyte', 'ScrapingBee'],
       q: ['Shahzaib has been a partner for over a year now working on building and maintaining 200+ scrapers and integrating them into my workflow. Shahzaib works efficiently and reliably and is my go-to partner for all scraping tasks. Highly recommended.', 'Jonathan T., Global E-Commerce Manager · verified Upwork testimonial, Aug 2023'] },
-    { t: 'API Documentation Extraction for AI Training', m: 'Rivery (data-integration / ELT platform) · Jul–Sep 2024 · System designer & developer · Direct client',
+    { t: 'API Documentation Extraction for AI Training', m: 'Rivery (data-integration / ELT platform) · Jul–Dec 2024 · System designer & developer · Direct client',
       k: [['450', 'docs sites tested'], ['2 modes', 'quick & deep'], ['Markdown', 'AI-ready output'], ['S3', 'mirrored structure']],
       ch: 'Collect technical and API documentation from anywhere on the web, static, JavaScript-rendered or dynamically loaded, as clean Markdown to train AI and ETL models.',
       b: ['General-purpose crawler: Quick mode (Scrapy) for static docs, Deep mode (Selenium) for JavaScript-heavy sites', 'Domain limiting, page validation and Markdown conversion with Jina AI', 'AWS S3 storage mirroring the original folder structure, plus an end-of-run report'],
