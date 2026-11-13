@@ -26,7 +26,7 @@ document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Typewriter that cycles through roles
-const words = ['Python Automation', 'Web Scraping', 'Data Pipelines', 'Bot Bypass & Proxies'];
+const words = ['Senior Python Data Engineer', 'Web Scraping', 'ETL Pipelines', 'Resilient Crawling'];
 const typeEl = document.getElementById('type');
 if (reduce) { typeEl.textContent = words.join(' · '); }
 else {

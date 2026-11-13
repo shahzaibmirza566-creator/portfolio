@@ -438,3 +438,32 @@ main { max-width: min(1160px, 100%); }
 /* stats: number and "+" share one baseline, size and weight */
 .stats b { display: flex; align-items: baseline; gap: 1px; line-height: 1.15; font-weight: 800; font-variant-numeric: tabular-nums; }
 .stats b span { font: inherit; color: inherit; }
+
+/* ---------- Recruiter essentials: availability, résumé, experience, code samples ---------- */
+.avail { display: inline-flex; align-items: center; gap: 9px; margin: 14px 0 0; padding: 6px 14px; border: 1px solid var(--border);
+  border-radius: 999px; background: var(--surface); color: var(--text); font-size: .88rem; font-weight: 600; }
+.avail i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #28c840; box-shadow: 0 0 0 4px rgba(40,200,64,.22); }
+.nav nav a.resume { color: var(--btn-text); background: var(--btn); padding: 7px 16px; border-radius: 999px; font-weight: 600; }
+.nav nav a.resume:hover { color: var(--btn-text); filter: brightness(1.08); }
+
+.timeline { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 18px; }
+.timeline > li { display: grid; grid-template-columns: 170px 1fr; gap: 20px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px; min-width: 0; }
+.timeline .when { color: var(--accent); font-weight: 700; font-size: .9rem; padding-top: 3px; }
+.timeline h3 { margin: 0 0 4px; font-size: 1.15rem; }
+.timeline .org { margin: 0; font-size: .9rem; max-width: none; }
+.timeline ul { margin: 10px 0 0; padding-left: 18px; color: var(--muted); }
+.timeline ul li { margin: 4px 0; }
+
+.repos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 20px; margin-top: 8px; }
+a.card { display: block; }
+.repo-link { display: inline-block; margin-top: 14px; color: var(--accent); font-weight: 600; font-size: .9rem; }
+
+@media (max-width: 720px) {
+  .timeline > li { grid-template-columns: 1fr; gap: 6px; padding: 18px; }
+  .nav nav a.resume { text-align: center; margin-top: 12px; border-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .avail { font-size: .8rem; align-items: flex-start; border-radius: 14px; }
+  .avail i { margin-top: 6px; }
+}

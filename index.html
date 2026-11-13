@@ -3,9 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mirza Shahzaib · Senior Data Engineer · Web Scraping</title>
-  <meta name="description" content="Portfolio of Mirza Shahzaib, freelance senior data engineer. 200+ production scrapers, ETL pipelines and lead-generation platforms.">
+  <title>Mirza Shahzaib · Senior Python Data Engineer · Web Scraping &amp; ETL</title>
+  <meta name="description" content="Mirza Shahzaib, senior Python data engineer. Web scraping and ETL pipelines: 1,200+ production scrapers, team lead of 7+ engineers, open to full-time roles.">
+  <meta property="og:title" content="Mirza Shahzaib · Senior Python Data Engineer">
+  <meta property="og:description" content="Web scraping and ETL pipelines: 1,200+ production scrapers, team lead of 7+ engineers. Case studies, code samples and résumé.">
+  <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Mirza Shahzaib",
+    "jobTitle": "Senior Python Data Engineer",
+    "description": "Senior Python data engineer specialising in web scraping and ETL pipelines.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Gujrat", "addressRegion": "Punjab", "addressCountry": "PK" },
+    "knowsAbout": ["Web scraping", "ETL pipelines", "Python", "Scrapy", "Playwright", "PostgreSQL", "MongoDB"],
+    "sameAs": [
+      "https://www.linkedin.com/in/mirza-shahzaib-613bab15b/",
+      "https://github.com/shahzaibmirza566-creator"
+    ]
+  }
+  </script>
 </head>
 <body>
   <canvas id="fx" aria-hidden="true"></canvas>
@@ -16,10 +34,11 @@
     <a href="#top" class="logo">SM<span>.</span></a>
     <nav id="nav-links">
       <a href="#about">About</a>
-      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
       <a href="#case-studies">Case studies</a>
-      <a href="#projects">Projects</a>
+      <a href="#code">Code</a>
       <a href="#contact">Contact</a>
+      <a class="resume" href="Mirza_Shahzaib_CV.pdf" target="_blank" rel="noopener">Résumé</a>
       <button id="theme" aria-label="Toggle theme">◐</button>
     </nav>
     <button id="menu" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><i></i><i></i><i></i></button>
@@ -30,16 +49,18 @@
       <div class="hero-text">
       <p class="eyebrow"><span id="type"></span><span class="caret"></span></p>
       <h1>I turn messy websites into <em>clean, reliable data.</em></h1>
-      <p class="lead">Hi, I'm Mirza Shahzaib, a freelance senior data engineer with 5+ years building production scrapers, ETL pipelines and lead-generation platforms that keep running when sites change.</p>
+      <p class="lead">Hi, I'm Mirza Shahzaib, a senior Python data engineer with 5+ years building production scrapers and ETL pipelines that keep running when sites change. I've shipped 1,200+ scrapers and led a team of 7+ engineers.</p>
+      <p class="avail"><i></i>Open to full-time senior roles · Remote, hybrid or relocation · PKT (UTC+5)</p>
       <div class="cta">
-        <a class="btn primary" href="#case-studies">See my work</a>
+        <a class="btn primary" href="Mirza_Shahzaib_CV.pdf" target="_blank" rel="noopener">Download résumé</a>
+        <a class="btn" href="#case-studies">See my work</a>
         <a class="btn" href="#contact">Get in touch</a>
       </div>
       <ul class="stats">
-        <li><b><span data-count="1000">1,000</span>+</b><span>Projects completed</span></li>
         <li><b><span data-count="5">5</span>+</b><span>Years building</span></li>
-        <li><b><span data-count="2000">2,000</span>+</b><span>Production scrapers</span></li>
-        <li><b><span data-count="450">450</span>+</b><span>Fiverr reviews · 4.9★</span></li>
+        <li><b><span data-count="1200">1,200</span>+</b><span>Production scrapers</span></li>
+        <li><b><span data-count="7">7</span>+</b><span>Engineers led</span></li>
+        <li><b><span data-count="1000">1,000</span>+</b><span>Freelance projects · 4.9★</span></li>
       </ul>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -59,8 +80,47 @@
 
     <section id="about" class="reveal">
       <h2>About</h2>
-      <p>I'm a web scraping specialist and Python data engineer who builds production scrapers that keep running: from large-scale collection on protected, JavaScript-heavy sites to clean, standardised datasets delivered to databases, S3, CSV or CRMs.</p>
-      <p>In 5+ years I have built 200+ production scrapers for a UK e-commerce brand, collected 3.3M court decisions for a legal-AI company, standardised property records from 18 Florida counties into one schema, and delivered 7 live lead-generation dashboards. I work solo and own each project end to end: architecture, build, validation, documentation and handover.</p>
+      <p>I'm a Python data engineer specialising in web scraping: from large-scale collection on protected, JavaScript-heavy sites to clean, standardised datasets delivered to databases, S3, CSV or CRMs. My long-running pipelines process 100k+ records per day at a 98% success rate.</p>
+      <p>I spent three years at GulzarSoft, progressing from Python Developer to Senior Software Engineer and Team Lead of 7+ engineers. Since then I have built 200+ production scrapers for a UK e-commerce brand, collected 3.3M court decisions for a legal-AI company, standardised Florida county property records into one schema, and delivered 7 live lead-generation dashboards.</p>
+      <p>I'm comfortable owning a system end to end (architecture, build, validation, documentation, handover) and equally comfortable inside a team: setting coding standards, reviewing code and mentoring.</p>
+    </section>
+
+    <section id="experience" class="reveal">
+      <h2>Experience</h2>
+      <ol class="timeline">
+        <li>
+          <div class="when">Dec 2021 – Present</div>
+          <div class="what">
+            <h3>Freelance Senior Data Engineer (Web Scraping)</h3>
+            <p class="org">Fiverr (Level 2 · 4.9★ · 450+ reviews) and Upwork (Top Rated) · alongside my full-time role until Feb 2024</p>
+            <ul>
+              <li>Delivered 1,000+ projects, mostly one-time data extractions, for real estate, e-commerce, lead-generation and SaaS clients.</li>
+              <li>Build and maintain long-running pipelines with monitoring, retries and deduplication, including 200+ scrapers kept running for one client for over a year.</li>
+              <li>Keep crawls reliable on protected, JavaScript-heavy sites with Playwright, proxy rotation and rate limiting.</li>
+              <li>Founded ScrapeByte (Feb 2023, part-time), a data-extraction and automation service, and lead its small technical team.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">Jan 2021 – Feb 2024</div>
+          <div class="what">
+            <h3>Software Engineer → Senior Software Engineer / Team Lead</h3>
+            <p class="org">GulzarSoft, Gujrat, Pakistan · full-time · Python Developer (2021) → Associate Software Engineer (2022) → Senior / Team Lead (2023)</p>
+            <ul>
+              <li>Shipped 1,200+ production scrapers (Scrapy, BeautifulSoup, Selenium), including long-lived e-commerce and job-portal scrapers that I built and maintained.</li>
+              <li>Designed ETL pipelines that loaded millions of records into SQL and NoSQL databases and fed client-facing dashboards.</li>
+              <li>As Team Lead, led 7+ developers across real-estate and lead-generation pipelines, setting coding standards and reviewing every deliverable.</li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <div class="when">2017 – 2021</div>
+          <div class="what">
+            <h3>BS in Computer Science</h3>
+            <p class="org">PMAS Arid Agriculture University, Gujrat Campus</p>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <section id="skills" class="reveal">
@@ -70,6 +130,7 @@
         <span>Node.js / TypeScript</span><span>React</span><span>PostgreSQL</span><span>MongoDB</span>
         <span>MySQL</span><span>AWS S3</span><span>Zyte / ScrapingBee</span><span>Proxies &amp; CAPTCHA</span>
         <span>ETL pipelines</span><span>n8n</span><span>Docker</span><span>Pandas</span>
+        <span>Git &amp; CI/CD</span><span>Grafana / Sentry</span>
       </div>
     </section>
 
@@ -77,6 +138,25 @@
       <h2>Case studies</h2>
       <p>Seven client projects, each with the challenge, what I built, the result and the architecture.</p>
       <div class="cases" id="cases"></div>
+    </section>
+
+    <section id="code" class="reveal">
+      <h2>Code samples</h2>
+      <p>Client code stays private, so these are public reference implementations of patterns I use in production, each with tests and CI.</p>
+      <div class="repos">
+        <a class="card repo" href="https://github.com/shahzaibmirza566-creator/job-board-scrapers" target="_blank" rel="noopener">
+          <h3>job-board-scrapers</h3>
+          <p>Incremental crawlers for ZipRecruiter, Monster, Indeed and Glassdoor. Jobs already stored are skipped before their detail page is requested, so daily runs only fetch what is new.</p>
+          <div class="tags"><span>Python</span><span>Scrapy</span><span>SQLite</span><span>39 tests</span><span>GitHub Actions</span></div>
+          <span class="repo-link">View on GitHub →</span>
+        </a>
+        <a class="card repo" href="https://github.com/shahzaibmirza566-creator/autoscout24-listings-pipeline" target="_blank" rel="noopener">
+          <h3>autoscout24-listings-pipeline</h3>
+          <p>A two-stage listings pipeline: an incremental scraper that recovers from site deploys, and a cleaner that marks listings expired once they disappear.</p>
+          <div class="tags"><span>Python</span><span>Scrapy</span><span>MongoDB</span><span>24 tests</span><span>GitHub Actions</span></div>
+          <span class="repo-link">View on GitHub →</span>
+        </a>
+      </div>
     </section>
 
     <section id="projects" class="reveal">
@@ -117,19 +197,20 @@
     </section>
 
     <section id="contact" class="reveal">
-      <h2>Let's work together</h2>
-      <p>Have data you need or a task to automate? Tell me about it.</p>
+      <h2>Let's talk</h2>
+      <p>I'm open to senior Python and data engineering roles (remote, hybrid, on-site or relocation) and to select freelance projects. English: professional working proficiency. Timezone: PKT (UTC+5).</p>
       <div class="cta">
         <a class="btn primary" href="mailto:shahzaibmirza719@gmail.com">shahzaibmirza719@gmail.com</a>
+        <a class="btn" href="Mirza_Shahzaib_CV.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
         <a class="btn" href="https://www.linkedin.com/in/mirza-shahzaib-613bab15b/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn" href="https://www.fiverr.com/shahzaibmirz637" target="_blank" rel="noopener">Fiverr</a>
-        <a class="btn" href="https://www.upwork.com/freelancers/shahzaibmirza5" target="_blank" rel="noopener">Upwork</a>
         <a class="btn" href="https://github.com/shahzaibmirza566-creator" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://www.upwork.com/freelancers/shahzaibmirza5" target="_blank" rel="noopener">Upwork</a>
+        <a class="btn" href="https://www.fiverr.com/shahzaibmirz637" target="_blank" rel="noopener">Fiverr</a>
       </div>
     </section>
   </main>
 
-  <footer>© <span id="year"></span> Mirza Shahzaib · Freelance Senior Data Engineer</footer>
+  <footer>© <span id="year"></span> Mirza Shahzaib · Senior Python Data Engineer</footer>
   <script src="script.js"></script>
 </body>
 </html>
